@@ -3,8 +3,13 @@ import 'package:where_is_my_car/constants.dart';
 import 'package:where_is_my_car/widgets/button_card.dart';
 import 'package:where_is_my_car/widgets/save_button.dart';
 import 'package:where_is_my_car/widgets/icon_button_content.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-enum FloorType { ground, underground }
+enum FloorType {
+  ground,
+  underground;
+}
 
 class InputScreen extends StatefulWidget {
   const InputScreen({super.key});
@@ -14,14 +19,55 @@ class InputScreen extends StatefulWidget {
 }
 
 class _InputScreenState extends State<InputScreen> {
-  FloorType selectedFloorType = FloorType.ground;
-  int selectedFloor = 1;
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  FloorType _selectedFloorType = FloorType.ground;
+  int _selectedFloor = 1;
+
+  void setFloorData() async {
+    String toastMessage = kSaveSuccessMessage;
+    try {
+      final SharedPreferences prefs = await _prefs;
+      prefs.setInt('selectedFloorType', _selectedFloorType.index);
+      prefs.setInt('selectedFloor', _selectedFloor);
+    } catch (e) {
+      toastMessage = kSaveFailMessage;
+      print(e);
+    }
+
+    Fluttertoast.showToast(
+      msg: toastMessage,
+    );
+  }
+
+  void getFloorData() async {
+    try {
+      final SharedPreferences prefs = await _prefs;
+      final int selectedFloorType = prefs.getInt('selectedFloorType') ?? 0;
+      final int selectedFloor = prefs.getInt('selectedFloor') ?? 1;
+
+      setState(() {
+        _selectedFloorType = FloorType.values[selectedFloorType];
+        _selectedFloor = selectedFloor;
+      });
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: kGetDataErrorMessage,
+      );
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    getFloorData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           '내 차 위치',
           style: kSaveButtonTextStyle,
         ),
@@ -34,32 +80,32 @@ class _InputScreenState extends State<InputScreen> {
               children: [
                 Expanded(
                   child: ButtonCard(
-                    color: selectedFloorType == FloorType.ground
+                    color: _selectedFloorType == FloorType.ground
                         ? kButtonActiveColor
                         : kButtonInactiveColor,
-                    buttonContent: IconButtonContent(
+                    buttonContent: const IconButtonContent(
                       buttonIcon: Icons.keyboard_double_arrow_up,
                       buttonText: '지상',
                     ),
                     onTap: () {
                       setState(() {
-                        selectedFloorType = FloorType.ground;
+                        _selectedFloorType = FloorType.ground;
                       });
                     },
                   ),
                 ),
                 Expanded(
                   child: ButtonCard(
-                    color: selectedFloorType == FloorType.underground
+                    color: _selectedFloorType == FloorType.underground
                         ? kButtonActiveColor
                         : kButtonInactiveColor,
-                    buttonContent: IconButtonContent(
+                    buttonContent: const IconButtonContent(
                       buttonIcon: Icons.keyboard_double_arrow_down,
                       buttonText: '지하',
                     ),
                     onTap: () {
                       setState(() {
-                        selectedFloorType = FloorType.underground;
+                        _selectedFloorType = FloorType.underground;
                       });
                     },
                   ),
@@ -79,7 +125,7 @@ class _InputScreenState extends State<InputScreen> {
                         for (int j = 1; j <= 3; j++)
                           Expanded(
                             child: ButtonCard(
-                              color: selectedFloor == (i * 3) + j
+                              color: _selectedFloor == (i * 3) + j
                                   ? kButtonActiveColor
                                   : kButtonInactiveColor,
                               buttonContent: Center(
@@ -90,7 +136,7 @@ class _InputScreenState extends State<InputScreen> {
                               ),
                               onTap: () {
                                 setState(() {
-                                  selectedFloor = (i * 3) + j;
+                                  _selectedFloor = (i * 3) + j;
                                 });
                               },
                             ),
@@ -101,13 +147,11 @@ class _InputScreenState extends State<InputScreen> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10.0,
           ),
           SaveButton(
-            onTap: () {
-              print('save button clicked');
-            },
+            onTap: setFloorData,
           ),
         ],
       ),
