@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:where_is_my_car/screens/input_screen.dart';
+import 'package:where_is_my_car/pages/floor_page.dart';
+import 'package:where_is_my_car/providers/floor/floor_provider.dart';
 import 'constants.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,16 +17,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: baseColor,
-        appBarTheme: const AppBarTheme(
-          color: baseColor,
-          elevation: 0,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<FloorProvider>(
+          create: (context) => FloorProvider(),
+        )
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: baseColor,
+          appBarTheme: const AppBarTheme(
+            color: baseColor,
+            elevation: 0,
+          ),
+          textTheme: ThemeData.dark().textTheme.apply(fontFamily: 'Pretendard'),
         ),
-        textTheme: ThemeData.dark().textTheme.apply(fontFamily: 'Pretendard'),
+        home: const FloorPage(),
       ),
-      home: const InputScreen(),
     );
   }
 }

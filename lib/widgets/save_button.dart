@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:where_is_my_car/constants.dart';
+import 'package:where_is_my_car/providers/floor/floor_provider.dart';
 
 class SaveButton extends StatelessWidget {
   const SaveButton({
     super.key,
-    required this.onTap,
   });
-
-  final VoidCallback onTap;
-
   @override
   Widget build(BuildContext context) {
     return Material(
       color: kSaveButtonColor,
       child: InkWell(
-        onTap: onTap,
-        child: Container(
+        onTap: () => context.read<FloorProvider>().setFloorData(),
+        child: const SizedBox(
           height: kSaveButtonHeight,
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.check_rounded),
