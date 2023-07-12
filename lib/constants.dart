@@ -21,3 +21,6 @@ const TextStyle kIconButtonTextStyle = TextStyle(
 const kSaveSuccessMessage = '저장되었습니다';
 const kSaveFailMessage = '저장에 실패하였습니다';
 const kGetDataErrorMessage = '데이터를 가져오는 중 오류가 발생하였습니다';
+
+const kBottomNavBackgroundColor = Color(0xFF2A272F);
+const kBottomNavSelectedItemColor = Color(0xFFCFBCFF);

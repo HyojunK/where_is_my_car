@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:where_is_my_car/constants.dart';
 import 'package:where_is_my_car/providers/floor/floor_provider.dart';
 import 'package:where_is_my_car/widgets/floor_buttons.dart';
 import 'package:where_is_my_car/widgets/floor_type_buttons.dart';
@@ -22,15 +21,15 @@ class _FloorPageState extends State<FloorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          '내 차 위치',
-          style: kSaveButtonTextStyle,
-        ),
-        centerTitle: true,
-      ),
-      body: const Column(
+    return const Scaffold(
+      // appBar: AppBar(
+      //   title: const Text(
+      //     '내 차 위치',
+      //     style: kSaveButtonTextStyle,
+      //   ),
+      //   centerTitle: true,
+      // ),
+      body: Column(
         children: [
           FloorTypeButtons(),
           FloorButtons(),

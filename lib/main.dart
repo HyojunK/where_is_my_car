@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:where_is_my_car/pages/floor_page.dart';
-import 'package:where_is_my_car/providers/floor/floor_provider.dart';
+import 'package:where_is_my_car/pages/main_page.dart';
+import 'package:where_is_my_car/providers/providers.dart';
 import 'constants.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +21,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<FloorProvider>(
           create: (context) => FloorProvider(),
-        )
+        ),
+        ChangeNotifierProvider<BottomNavigationProvider>(
+          create: (context) => BottomNavigationProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -33,7 +36,7 @@ class MyApp extends StatelessWidget {
           ),
           textTheme: ThemeData.dark().textTheme.apply(fontFamily: 'Pretendard'),
         ),
-        home: const FloorPage(),
+        home: const MainPage(),
       ),
     );
   }
