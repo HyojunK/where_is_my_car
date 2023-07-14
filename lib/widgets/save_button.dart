@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:where_is_my_car/constants.dart';
 import 'package:where_is_my_car/providers/floor/floor_provider.dart';
+import 'package:where_is_my_car/providers/timer/timer_provider.dart';
 
 class SaveButton extends StatelessWidget {
   const SaveButton({
@@ -12,7 +13,10 @@ class SaveButton extends StatelessWidget {
     return Material(
       color: kSaveButtonColor,
       child: InkWell(
-        onTap: () => context.read<FloorProvider>().setFloorData(),
+        onTap: () {
+          context.read<FloorProvider>().setFloorData();
+          context.read<TimerProvider>().resetTimer();
+        },
         child: const SizedBox(
           height: kSaveButtonHeight,
           child: Row(

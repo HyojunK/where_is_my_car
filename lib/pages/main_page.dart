@@ -4,6 +4,8 @@ import 'package:where_is_my_car/pages/floor_page.dart';
 import 'package:where_is_my_car/pages/timer_page.dart';
 import 'package:where_is_my_car/providers/bottom_navigation/bottom_navigation_provider.dart';
 import 'package:where_is_my_car/constants.dart';
+import 'package:where_is_my_car/providers/timer/timer_provider.dart';
+import 'package:where_is_my_car/widgets/bottom_navigation_content.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -13,6 +15,13 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  @override
+  void initState() {
+    // 타이머 시작
+    context.read<TimerProvider>().initTimer();
+    super.initState();
+  }
+
   final List<Widget> _widgetList = <Widget>[
     const FloorPage(),
     const TimerPage(),
@@ -28,24 +37,18 @@ class _MainPageState extends State<MainPage> {
           backgroundColor: kBottomNavBackgroundColor,
           selectedItemColor: kBottomNavSelectedItemColor,
           selectedFontSize: 12.0,
-          items: [
+          items: const [
             BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/icons/car_icon.png',
-                color:
-                    context.watch<BottomNavigationProvider>().state.index == 0
-                        ? kBottomNavSelectedItemColor
-                        : Colors.white,
+              icon: BottomNavigationIcon(
+                index: 0,
+                iconImgPath: 'assets/icons/car_icon@2x.png',
               ),
               label: '내차위치',
             ),
             BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/icons/timer_icon.png',
-                color:
-                    context.watch<BottomNavigationProvider>().state.index == 1
-                        ? kBottomNavSelectedItemColor
-                        : Colors.white,
+              icon: BottomNavigationIcon(
+                index: 1,
+                iconImgPath: 'assets/icons/timer_icon@2x.png',
               ),
               label: '타이머',
             ),

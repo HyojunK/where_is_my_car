@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color baseColor = Color(0xFF1C1B1E);
+const Color kBaseColor = Color(0xFF1C1B1E);
 
 const double kSaveButtonHeight = 70.0;
 const Color kSaveButtonColor = Color(0xFF565064);
@@ -24,3 +24,6 @@ const kGetDataErrorMessage = '데이터를 가져오는 중 오류가 발생하�
 
 const kBottomNavBackgroundColor = Color(0xFF2A272F);
 const kBottomNavSelectedItemColor = Color(0xFFCFBCFF);
+
+const kTimerNumberTextStyle = TextStyle(fontSize: 60.0);
+const kTimerTextStyle = TextStyle(fontSize: 24.0);
